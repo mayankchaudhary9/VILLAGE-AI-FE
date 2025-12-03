@@ -33,7 +33,8 @@ export default function ChatBot({ t, language, setLanguage }) {
       recognition.onstart = () => setListening(true);
       recognition.onend = () => setListening(false);
       recognition.onerror = () => setListening(false);
-      recognition.onresult = (e) => handleVoiceMessage(e.results[0][0].transcript);
+      recognition.onresult = (e) =>
+        handleVoiceMessage(e.results[0][0].transcript);
 
       recognitionRef.current = recognition;
     }
@@ -54,7 +55,6 @@ export default function ChatBot({ t, language, setLanguage }) {
     }
   }, []);
 
-
   const createInitialChat = () => {
     const firstChat = {
       id: Date.now().toString(),
@@ -73,8 +73,14 @@ export default function ChatBot({ t, language, setLanguage }) {
 
   // 💾 Save chats + Auto-scroll
   useEffect(() => {
-    localStorage.setItem("chatSessions", JSON.stringify({ chats, activeChatId }));
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    localStorage.setItem(
+      "chatSessions",
+      JSON.stringify({ chats, activeChatId })
+    );
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   }, [chats, activeChatId]);
 
   const currentChat = chats.find((c) => c.id === activeChatId);
@@ -100,7 +106,7 @@ export default function ChatBot({ t, language, setLanguage }) {
     const detectedLang = detectLanguage(text);
 
     try {
-      const res = await fetch("http://localhost:5000/api/chat", {
+      const res = await fetch("https://village-ai.onrender.com/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, lang: detectedLang }),
