@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser, clearRegisterSuccess } from "../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Globe } from "lucide-react";
 import InputForm from "../components/InputForm";
 
-function RegisterPage({ t, language, setLanguage }) {
+function RegisterPage() {
+  const { t, language, setLanguage } = useOutletContext();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, registerSuccess } = useSelector((state) => state.auth);

@@ -1,12 +1,13 @@
 import Header from "../components/Header";
 import AICard from "../components/AICard";
 // import { getAICards } from "../controllers/aiCardController";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { MessageSquare } from "lucide-react";
 import { getAICards } from "../data/aiCardData";
 import SearchBar from "../components/SearchBar";
 
-export default function HomePage({ t, language, setLanguage }) {
+export default function HomePage() {
+  const { t, language, setLanguage } = useOutletContext();
   const navigate = useNavigate();
   const aiCards = getAICards(t);
 
@@ -33,7 +34,7 @@ export default function HomePage({ t, language, setLanguage }) {
             {t.welcome}
           </h2>
           <p className="text-lg max-w-lg leading-relaxed">{t.subtitle}</p>
-          {/* <SearchBar /> */}
+          <SearchBar />
         </div>
         {/* Right */}
         <div className="flex justify-center md:justify-end">

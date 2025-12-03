@@ -7,18 +7,16 @@ import { toast } from "react-toastify";
 
 export default function Header({ t, language, setLanguage }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const { loading } = useSelector((state) => state.auth); 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, user } = useSelector((state) => state.auth);
 
   const handleLogout = async () => {
     await dispatch(logoutUser());
-    toast.success("Logout successful")
-    navigate("/login", { replace: true });
+    toast.success("Logout successful");
   };
 
-
- return (
+  return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* App Name */}
@@ -44,19 +42,29 @@ export default function Header({ t, language, setLanguage }) {
           {/* Chatbot Button */}
           <button
             onClick={() => navigate("/chatbot")}
-            className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition cursor-pointer"
+            className="w-26 h-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition cursor-pointer"
           >
             {t.chatbot}
           </button>
 
           {/* Logout Button */}
-          <button
-            onClick={handleLogout}
-            disabled={loading}
-            className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition cursor-pointer"
-          >
-            {t.logout}
-          </button>
+          {user === null ? (
+            <button
+              onClick={() => navigate("/login")}
+              disabled={loading}
+              className="w-26 h-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition cursor-pointer"
+            >
+              {t.login}
+            </button>
+          ) : (
+            <button
+              onClick={handleLogout}
+              disabled={loading}
+              className="w-26 h-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition cursor-pointer"
+            >
+              {t.logout}
+            </button>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -65,7 +73,11 @@ export default function Header({ t, language, setLanguage }) {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle Menu"
         >
-          {menuOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
+          {menuOpen ? (
+            <X className="w-6 h-6 text-gray-700" />
+          ) : (
+            <Menu className="w-6 h-6 text-gray-700" />
+          )}
         </button>
       </div>
 
@@ -98,20 +110,32 @@ export default function Header({ t, language, setLanguage }) {
             </button>
 
             {/* Logout */}
-            <button
-              onClick={() => {
-                handleLogout();
-                setMenuOpen(false);
-              }}
-              disabled={loading}
-              className="w-full text-left bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition"
-            >
-              {t.logout}
-            </button>
+            {user === null ? (
+              <button
+                onClick={() => {
+                  navigate("/login");
+                  setMenuOpen(false);
+                }}
+                disabled={loading}
+                className="w-full text-left bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition"
+              >
+                {t.login}
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setMenuOpen(false);
+                }}
+                disabled={loading}
+                className="w-full text-left bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition"
+              >
+                {t.logout}
+              </button>
+            )}
           </div>
         </div>
       )}
     </header>
   );
 }
-

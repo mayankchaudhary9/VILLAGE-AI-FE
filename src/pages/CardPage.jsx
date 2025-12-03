@@ -1,8 +1,10 @@
 import React from "react";
 import Header from "../components/Header";
 import CardSection from "../components/CardSection";
+import { useOutletContext } from "react-router-dom";
 
-export default function CardPage({ type, t, language, setLanguage }) {
+export default function CardPage() {
+  const { t, language, setLanguage } = useOutletContext();
   const dataMap = {
     farming: [
       {
