@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser, clearRegisterSuccess } from "../features/auth/authSlice";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Globe } from "lucide-react";
 import InputForm from "../components/InputForm";
+import { FaArrowLeft } from "react-icons/fa6";
 
 function RegisterPage() {
   const { t, language, setLanguage } = useOutletContext();
@@ -125,9 +126,17 @@ function RegisterPage() {
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-6 sm:p-8 md:p-10">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 text-center sm:text-left">
-            {t.register}
-          </h2>
+          <div className="flex justify-center items-center gap-2">
+            <Link
+              to={"/"}
+              className="text-lg sm:text-xl text-gray-600 hover:text-blue-600 transition"
+            >
+              <FaArrowLeft />
+            </Link>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 text-center sm:text-left">
+              {t.register}
+            </h2>
+          </div>
           <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-2 mt-3 sm:mt-0">
             <Globe className="w-4 h-4 text-gray-600" />
             <select
